@@ -10,12 +10,12 @@ import (
 
 // State
 type State struct {
-	state *lua.State
+	s *lua.State
 }
 
 // NewState
 func NewState() *State {
-	return &State{state: lua.NewState()}
+	return &State{s: lua.NewState()}
 }
 
 // Version
@@ -23,4 +23,9 @@ func Version() string {
 	state := lua.NewState()
 	version := int(*lua.Version(state))
 	return fmt.Sprintf("%d.%d", version/100, version%100)
+}
+
+// DoString
+func (state *State) DoString(code string) error {
+	return lua.DoString(state.s, code)
 }
