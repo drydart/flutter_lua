@@ -1,3 +1,5 @@
+/* This is free and unencumbered software released into the public domain. */
+
 package com.github.drydart.flutter_lua;
 
 import io.flutter.plugin.common.MethodCall;
@@ -7,19 +9,36 @@ import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 /** FlutterLuaPlugin */
-public class FlutterLuaPlugin implements MethodCallHandler {
+public class FlutterLuaPlugin extends FlutterMethodCallHandler {
+  static final String CHANNEL = "flutter_lua";
+
+  FlutterLuaPlugin(final Registrar registrar) {
+    super(registrar);
+  }
+
   /** Plugin registration. */
-  public static void registerWith(Registrar registrar) {
-    final MethodChannel channel = new MethodChannel(registrar.messenger(), "flutter_lua");
-    channel.setMethodCallHandler(new FlutterLuaPlugin());
+  public static void registerWith(final Registrar registrar) {
+    assert(registrar != null);
+
+    (new MethodChannel(registrar.messenger(), CHANNEL))
+      .setMethodCallHandler(new FlutterLuaPlugin(registrar));
   }
 
   @Override
-  public void onMethodCall(MethodCall call, Result result) {
-    if (call.method.equals("getPlatformVersion")) {
-      result.success("Android " + android.os.Build.VERSION.RELEASE);
-    } else {
-      result.notImplemented();
+  public void onMethodCall(final MethodCall call, final Result result) {
+    assert(call != null);
+    assert(result != null);
+
+    assert(call.method != null);
+    switch (call.method) {
+      case "getVersion": {
+        result.success("Android " + android.os.Build.VERSION.RELEASE);
+        break;
+      }
+
+      default: {
+        result.notImplemented();
+      }
     }
   }
 }
