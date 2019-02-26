@@ -5,6 +5,7 @@ package flutter_lua
 
 import (
 	"fmt"
+
 	lua "github.com/Shopify/go-lua"
 )
 
@@ -23,6 +24,11 @@ func Version() string {
 	state := lua.NewState()
 	version := int(*lua.Version(state))
 	return fmt.Sprintf("%d.%d", version/100, version%100)
+}
+
+// DoFile
+func (state *State) DoFile(path string) error {
+	return lua.DoFile(state.s, path)
 }
 
 // DoString

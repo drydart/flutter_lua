@@ -36,6 +36,18 @@ public class FlutterLuaPlugin extends FlutterMethodCallHandler {
         break;
       }
 
+      case "doFile": {
+        try {
+          final State state = new State();
+          state.doFile((String)call.arguments);
+          result.success(null);
+        }
+        catch (final Exception error) {
+          result.error("Exception", error.getMessage(), error.toString());
+        }
+        break;
+      }
+
       case "doString": {
         try {
           final State state = new State();
