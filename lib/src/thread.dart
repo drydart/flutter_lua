@@ -12,8 +12,7 @@ class LuaThread {
   final int id;
   final MethodChannel _thread;
 
-  LuaThread._(this.id)
-    : _thread = MethodChannel('flutter_lua/#$id');
+  LuaThread._(this.id) : _thread = MethodChannel('flutter_lua/#$id');
 
   /// Spawns a new Lua interpreter thread.
   static Future<LuaThread> spawn() async {
