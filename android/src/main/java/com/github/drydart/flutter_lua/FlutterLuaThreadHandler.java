@@ -32,6 +32,25 @@ final class FlutterLuaThreadHandler extends FlutterMethodCallHandler {
     channel.setMethodCallHandler(this);
   }
 
+  static private class ResultCompleter implements BiConsumer<Object, Throwable> {
+    final Result result;
+
+    ResultCompleter(final Result result) {
+      this.result = result;
+    }
+
+    @Override
+    public void accept(final Object value,
+                       final Throwable error) {
+      if (error != null) {
+        this.result.error("LuaError", error.getMessage(), error.toString());
+      }
+      else {
+        this.result.success(value);
+      }
+    }
+  }
+
   @Override
   public void onMethodCall(final MethodCall call,
                            final Result result) {
@@ -57,22 +76,28 @@ final class FlutterLuaThreadHandler extends FlutterMethodCallHandler {
               }
             }
           }, this.executor)
-          .whenComplete(new BiConsumer<Object, Throwable>() {
-            @Override
-            public void accept(final Object value, final Throwable error) {
-              if (error != null) {
-                result.error("Exception", error.getMessage(), error.toString());
-              }
-              else {
-                result.success(value);
-              }
-            }
-          });
+          .whenComplete(new ResultCompleter(result));
         break;
       }
 
       case "evalFile": {
-        result.notImplemented(); // TODO
+        final State state = this.state;
+        final String path = (String)call.arguments;
+        CompletableFuture
+          .supplyAsync(new Supplier() {
+            @Override
+            public Object get() {
+              try {
+                state.doFile(path);
+                return popResult(state);
+              }
+              catch (final Exception error) {
+                throw new RuntimeException(error);
+              }
+            }
+          }, this.executor)
+          .whenComplete(new ResultCompleter(result));
+        break;
       }
 
       case "evalAsset": {
