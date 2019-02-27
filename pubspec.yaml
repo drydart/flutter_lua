@@ -2,7 +2,7 @@
 name: flutter_lua
 version: 0.1.0
 description: >-
-  Embeddable Lua interpreter for Flutter apps.
+  Lua interpreter and runtime for executing dynamic scripts in Flutter apps.
 author: Arto Bendiken <arto@bendiken.net>
 homepage: https://github.com/drydart/flutter_lua
 documentation:
