@@ -15,7 +15,7 @@ import 'package:meta/meta.dart' show experimental;
 const MethodChannel _channel = const MethodChannel('flutter_lua');
 
 abstract class Lua {
-  /// The Lua runtime version.
+  /// The current Lua runtime version.
   static Future<String> get version async {
     return await _channel.invokeMethod('getVersion');
   }
