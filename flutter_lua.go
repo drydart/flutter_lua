@@ -16,7 +16,7 @@ type State struct {
 
 // NewState
 func NewState() *State {
-	return &State{s: lua.NewState()}
+	return &State{s: lua.NewStateEx()}
 }
 
 // Version

@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_lua/flutter_lua.dart' show Lua;
+import 'package:flutter_lua/flutter_lua.dart' show Lua, Thread;
 
-void main() => runApp(MyApp());
+void main() async {
+  final thread = await Thread.spawn();
+  print(thread);
+  print(await thread.eval("return 6*7"));
+  //runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override

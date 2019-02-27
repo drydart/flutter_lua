@@ -4,13 +4,15 @@ package com.github.drydart.flutter_lua;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 /** FlutterLuaPlugin */
 public class FlutterLuaPlugin extends FlutterMethodCallHandler {
-  static final String CHANNEL = "flutter_lua";
+  private static final String TAG = "FlutterLuaPlugin";
+  public static final String CHANNEL = "flutter_lua";
+
+  private long threadID;
 
   FlutterLuaPlugin(final Registrar registrar) {
     super(registrar);
@@ -31,12 +33,20 @@ public class FlutterLuaPlugin extends FlutterMethodCallHandler {
 
     assert(call.method != null);
     switch (call.method) {
+
       case "getVersion": {
         result.success(Flutter_lua.version());
         break;
       }
 
-      case "doFile": {
+      case "spawnThread": {
+        this.threadID++;
+        new FlutterLuaThreadHandler(this.registrar, this.threadID);
+        result.success(this.threadID);
+        break;
+      }
+
+      case "doFile": { // @experimental
         try {
           final State state = new State();
           state.doFile((String)call.arguments);
@@ -48,7 +58,7 @@ public class FlutterLuaPlugin extends FlutterMethodCallHandler {
         break;
       }
 
-      case "doString": {
+      case "doString": { // @experimental
         try {
           final State state = new State();
           state.doString((String)call.arguments);
