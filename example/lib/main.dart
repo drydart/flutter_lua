@@ -1,3 +1,5 @@
+/* This is free and unencumbered software released into the public domain. */
+
 import 'dart:async' show Future;
 import 'dart:io' show File;
 

@@ -6,11 +6,14 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
-import java.io.InputStream;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /** FlutterMethodCallHandler */
 @SuppressWarnings("unchecked")
@@ -30,6 +33,21 @@ abstract class FlutterMethodCallHandler implements MethodCallHandler {
   openAsset(final String assetName) throws IOException {
     final String assetKey = registrar.lookupKeyForAsset(assetName);
     return getAssets().openFd(assetKey);
+  }
+
+  String
+  readAssetText(final String assetName) throws IOException {
+    final String assetKey = registrar.lookupKeyForAsset(assetName);
+    final InputStream assetStream = getAssets().open(assetKey, AssetManager.ACCESS_STREAMING);
+    final ByteArrayOutputStream result = new ByteArrayOutputStream();
+    {
+      final byte[] buffer = new byte[8192];
+      int length;
+      while ((length = assetStream.read(buffer)) != -1) {
+        result.write(buffer, 0, length);
+      }
+    }
+    return result.toString("UTF-8");
   }
 
   Bitmap

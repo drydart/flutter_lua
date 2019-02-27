@@ -31,4 +31,9 @@ class LuaThread {
     final absolutePath = path.isAbsolute ? path : path.absolute;
     return await _thread.invokeMethod('evalFile', absolutePath.toString());
   }
+
+  /// Evaluates a bundled Lua asset file on this thread.
+  Future<dynamic> evalAsset(final String assetName) async {
+    return await _thread.invokeMethod('evalAsset', assetName);
+  }
 }
