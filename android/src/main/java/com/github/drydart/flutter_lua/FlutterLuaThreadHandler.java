@@ -82,26 +82,6 @@ final class FlutterLuaThreadHandler extends FlutterMethodCallHandler {
         break;
       }
 
-      case "evalFile": {
-        final State state = this.state;
-        final String path = (String)call.arguments;
-        CompletableFuture
-          .supplyAsync(new Supplier() {
-            @Override
-            public Object get() {
-              try {
-                state.doFile(path);
-                return popResult(state);
-              }
-              catch (final Exception error) {
-                throw new RuntimeException(error);
-              }
-            }
-          }, this.executor)
-          .whenComplete(new ResultCompleter(result));
-        break;
-      }
-
       case "evalAsset": {
         final State state = this.state;
         final String assetName = (String)call.arguments;
@@ -119,6 +99,26 @@ final class FlutterLuaThreadHandler extends FlutterMethodCallHandler {
             public Object get() {
               try {
                 state.doString(code);
+                return popResult(state);
+              }
+              catch (final Exception error) {
+                throw new RuntimeException(error);
+              }
+            }
+          }, this.executor)
+          .whenComplete(new ResultCompleter(result));
+        break;
+      }
+
+      case "evalFile": {
+        final State state = this.state;
+        final String path = (String)call.arguments;
+        CompletableFuture
+          .supplyAsync(new Supplier() {
+            @Override
+            public Object get() {
+              try {
+                state.doFile(path);
                 return popResult(state);
               }
               catch (final Exception error) {
