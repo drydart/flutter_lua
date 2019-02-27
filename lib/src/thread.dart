@@ -8,17 +8,17 @@ import 'package:flutter/services.dart' show MethodChannel;
 const MethodChannel _global = const MethodChannel('flutter_lua');
 
 /// A Lua thread.
-class Thread {
+class LuaThread {
   final int id;
   final MethodChannel _thread;
 
-  Thread._(this.id)
+  LuaThread._(this.id)
     : _thread = MethodChannel('flutter_lua/#$id');
 
   /// Spawns a new Lua thread.
-  static Future<Thread> spawn() async {
+  static Future<LuaThread> spawn() async {
     final int id = await _global.invokeMethod('spawnThread');
-    return Thread._(id);
+    return LuaThread._(id);
   }
 
   /// Evaluates some Lua code on this thread.

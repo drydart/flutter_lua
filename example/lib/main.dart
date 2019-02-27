@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_lua/flutter_lua.dart' show Lua, Thread;
+import 'package:flutter_lua/flutter_lua.dart' show Lua, LuaThread;
 
 void main() async {
-  final thread = await Thread.spawn();
+  final thread = await LuaThread.spawn();
   print(thread);
   print(await thread.eval("return 6*7"));
-  //runApp(MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {

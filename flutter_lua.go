@@ -35,3 +35,42 @@ func (state *State) DoFile(path string) error {
 func (state *State) DoString(code string) error {
 	return lua.DoString(state.s, code)
 }
+
+// HasResult
+func (state *State) HasResult() bool {
+	return state.s.Top() > 0
+}
+
+// ResultType
+func (state *State) ResultType() int {
+	return int(state.s.TypeOf(1))
+}
+
+// BoolValue
+func (state *State) BoolValue() bool {
+	return state.s.ToBoolean(1)
+}
+
+// IntValue
+func (state *State) IntValue() int {
+	value, _ := state.s.ToInteger(1)
+	return value
+}
+
+// LongValue
+func (state *State) LongValue() int {
+	value, _ := state.s.ToInteger(1)
+	return value
+}
+
+// DoubleValue
+func (state *State) DoubleValue() float64 {
+	value, _ := state.s.ToNumber(1)
+	return value
+}
+
+// StringValue
+func (state *State) StringValue() string {
+	value, _ := state.s.ToString(1)
+	return value
+}

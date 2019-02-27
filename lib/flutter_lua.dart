@@ -4,7 +4,7 @@
 library flutter_lua;
 
 export 'src/errors.dart';
-export 'src/thread.dart' show Thread;
+export 'src/thread.dart' show LuaThread;
 
 import 'dart:async' show Future;
 import 'dart:io' show File;

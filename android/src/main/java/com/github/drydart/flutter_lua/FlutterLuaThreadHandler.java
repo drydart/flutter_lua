@@ -50,7 +50,7 @@ final class FlutterLuaThreadHandler extends FlutterMethodCallHandler {
             public Object get() {
               try {
                 state.doString(code);
-                return null; // TODO
+                return popResult(state);
               }
               catch (final Exception error) {
                 throw new RuntimeException(error);
@@ -82,6 +82,35 @@ final class FlutterLuaThreadHandler extends FlutterMethodCallHandler {
       default: {
         result.notImplemented();
       }
+    }
+  }
+
+  private static Object popResult(final State state) {
+    if (!state.hasResult()) return null;
+    switch ((int)state.resultType()) {
+      case 0:  // lua.TypeNil
+        return null;
+      case 1:  // lua.TypeBoolean
+        return state.boolValue();
+      case 2:  // lua.TypeLightUserData
+        return null; // TODO
+      case 3:  // lua.TypeNumber
+        return state.doubleValue(); // TODO: support integers
+      case 4:  // lua.TypeString
+        return state.stringValue();
+      case 5:  // lua.TypeTable
+        return null; // TODO
+      case 6:  // lua.TypeFunction
+        return null; // TODO
+      case 7:  // lua.TypeUserData
+        return null; // TODO
+      case 8:  // lua.TypeThread
+        return null; // TODO
+      case 9:  // lua.TypeCount
+      case -1: // lua.TypeNone
+      default:
+        assert(false); // unreachable
+        return null; // unreachable
     }
   }
 }
