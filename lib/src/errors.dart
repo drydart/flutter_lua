@@ -11,7 +11,7 @@ class LuaError implements IOException {
   const LuaError(this.message);
 
   LuaError.from(final PlatformException exception)
-    : message = exception.message;
+      : message = exception.message;
 
   @override
   String toString() {
