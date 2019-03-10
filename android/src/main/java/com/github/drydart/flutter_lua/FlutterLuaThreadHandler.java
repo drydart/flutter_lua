@@ -45,11 +45,18 @@ final class FlutterLuaThreadHandler extends FlutterMethodCallHandler {
     public void accept(final Object value,
                        final Throwable error) {
       if (error != null) {
-        this.result.error("LuaError", error.getMessage(), error.toString());
+        //error.printStackTrace(); // DEBUG
+        final Throwable cause = getRootCause(error);
+        this.result.error("LuaError", cause.getMessage(), null);
       }
       else {
         this.result.success(value);
       }
+    }
+
+    private Throwable getRootCause(final Throwable throwable) {
+      final Throwable cause = throwable.getCause();
+      return (cause != null) ? getRootCause(cause) : throwable;
     }
   }
 
