@@ -6,7 +6,7 @@ Flutter Lua Plugin
 [![Dartdoc reference](https://img.shields.io/badge/dartdoc-reference-blue.svg)](https://pub.dartlang.org/documentation/flutter_lua/latest/)
 [![Travis CI build status](https://img.shields.io/travis/drydart/flutter_lua/master.svg)](https://travis-ci.org/drydart/flutter_lua)
 
-This is a [Flutter](https://flutter.io) plugin that embeds
+This is a [Flutter](https://flutter.dev) plugin that embeds
 a [Lua](https://www.lua.org/) interpreter and runtime for executing dynamic
 scripts from Flutter apps.
 
