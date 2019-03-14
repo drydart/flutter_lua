@@ -32,12 +32,20 @@ public class SwiftFlutterLuaPlugin: NSObject, FlutterPlugin {
 
       case "evalString":
         let state = Flutter_lua_vmState()!
-        do {
-          try state.execString((call.arguments as! String))
-          result(popResult(state))
-        }
-        catch {
-          result(FlutterError(code: "Exception", message: "", details: "")) // TODO: improve error handling
+        let code = call.arguments as! String
+        DispatchQueue.global().async { [weak self] in
+          do {
+            try state.execString(code)
+            let response = popResult(state)
+            DispatchQueue.main.async { [weak self] in
+              result(response)
+            }
+          }
+          catch {
+            DispatchQueue.main.async { [weak self] in
+              result(FlutterError(code: "Exception", message: "", details: "")) // TODO: improve error handling
+            }
+          }
         }
 
       case "evalAsset":
@@ -73,12 +81,21 @@ private class FlutterLuaThreadHandler: NSObject, FlutterPlugin {
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     switch (call.method) {
       case "evalString":
-        do {
-          try self.state.execString((call.arguments as! String))
-          result(popResult(self.state))
-        }
-        catch {
-          result(FlutterError(code: "Exception", message: "", details: "")) // TODO: improve error handling
+        let state = self.state
+        let code = call.arguments as! String
+        DispatchQueue.global().async { [weak self] in
+          do {
+            try state.execString(code)
+            let response = popResult(state)
+            DispatchQueue.main.async { [weak self] in
+              result(response)
+            }
+          }
+          catch {
+            DispatchQueue.main.async { [weak self] in
+              result(FlutterError(code: "Exception", message: "", details: "")) // TODO: improve error handling
+            }
+          }
         }
 
       case "evalAsset":
