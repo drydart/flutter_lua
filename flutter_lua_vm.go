@@ -1,7 +1,7 @@
 /* This is free and unencumbered software released into the public domain. */
 
-// Package flutter_lua
-package flutter_lua
+// Package flutter_lua_vm
+package flutter_lua_vm
 
 import (
 	"fmt"

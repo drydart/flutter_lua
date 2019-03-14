@@ -30,7 +30,7 @@ final class FlutterLuaThreadHandler extends FlutterMethodCallHandler {
     final String channelName = String.format("%s/#%d", CHANNEL_PREFIX, threadID);
     this.channel = new MethodChannel(registrar.messenger(), channelName);
     this.executor = Executors.newSingleThreadScheduledExecutor();
-    this.state = Flutter_lua.newState();
+    this.state = Flutter_lua_vm.newState();
     channel.setMethodCallHandler(this);
   }
 

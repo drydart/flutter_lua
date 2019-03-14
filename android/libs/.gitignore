@@ -1,1 +1,3 @@
-flutter_lua-sources.jar
+# GoMobile build output
+flutter_lua_vm.aar
+flutter_lua_vm-sources.jar

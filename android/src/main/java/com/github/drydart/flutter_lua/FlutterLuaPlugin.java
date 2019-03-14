@@ -35,7 +35,7 @@ public class FlutterLuaPlugin extends FlutterMethodCallHandler {
     switch (call.method) {
 
       case "getVersion": {
-        result.success(Flutter_lua.version());
+        result.success(Flutter_lua_vm.version());
         break;
       }
 
