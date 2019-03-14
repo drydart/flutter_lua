@@ -10,6 +10,8 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
+import java.io.IOException;
+
 /** FlutterLuaPlugin */
 public class FlutterLuaPlugin extends FlutterMethodCallHandler {
   private static final String TAG = "FlutterLuaPlugin";
@@ -49,11 +51,11 @@ public class FlutterLuaPlugin extends FlutterMethodCallHandler {
         break;
       }
 
-      case "doFile": { // @experimental
+      case "evalString": {
+        final State state = new State();
         try {
-          final State state = new State();
-          state.doFile((String)call.arguments);
-          result.success(null);
+          state.doString((String)call.arguments);
+          result.success(popResult(state));
         }
         catch (final Exception error) {
           result.error("Exception", error.getMessage(), error.toString());
@@ -61,11 +63,32 @@ public class FlutterLuaPlugin extends FlutterMethodCallHandler {
         break;
       }
 
-      case "doString": { // @experimental
+      case "evalAsset": {
+        final State state = new State();
+        final String assetName = (String)call.arguments;
+        final String code;
         try {
-          final State state = new State();
-          state.doString((String)call.arguments);
-          result.success(null);
+          code = readAssetText(assetName);
+        }
+        catch (final IOException error) {
+          result.error("IOException", error.getMessage(), error.toString());
+          break;
+        }
+        try {
+          state.doString(code);
+          result.success(popResult(state));
+        }
+        catch (final Exception error) {
+          result.error("Exception", error.getMessage(), error.toString());
+        }
+        break;
+      }
+
+      case "evalFile": {
+        final State state = new State();
+        try {
+          state.doFile((String)call.arguments);
+          result.success(popResult(state));
         }
         catch (final Exception error) {
           result.error("Exception", error.getMessage(), error.toString());
@@ -76,6 +99,35 @@ public class FlutterLuaPlugin extends FlutterMethodCallHandler {
       default: {
         result.notImplemented();
       }
+    }
+  }
+
+  static Object popResult(final State state) {
+    if (!state.hasResult()) return null;
+    switch ((int)state.resultType()) {
+      case 0:  // lua.TypeNil
+        return null;
+      case 1:  // lua.TypeBoolean
+        return state.boolValue();
+      case 2:  // lua.TypeLightUserData
+        return null; // TODO
+      case 3:  // lua.TypeNumber
+        return state.doubleValue(); // TODO: support integers
+      case 4:  // lua.TypeString
+        return state.stringValue();
+      case 5:  // lua.TypeTable
+        return null; // TODO
+      case 6:  // lua.TypeFunction
+        return null; // TODO
+      case 7:  // lua.TypeUserData
+        return null; // TODO
+      case 8:  // lua.TypeThread
+        return null; // TODO
+      case 9:  // lua.TypeCount
+      case -1: // lua.TypeNone
+      default:
+        assert(false); // unreachable
+        return null; // unreachable
     }
   }
 }

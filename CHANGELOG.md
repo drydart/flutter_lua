@@ -8,7 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.3.0] - 2019-03-14
 ### Added
-- Added iOS platform support (#1)
+- Added iOS platform support (closes #1)
+- `Lua.eval()` static method
+- `Lua.evalAsset()` static method
+- `Lua.evalFile()` static method
+### Removed
+- `Lua.doString()` method (use `Lua.eval()`)
+- `Lua.doFile()` method (use `Lua.evalFile()`)
 
 ## [0.2.0] - 2019-03-10
 ### Added
@@ -18,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.0] - 2019-02-27
 ### Added
-- `Lua.version` static method
+- `Lua.version` static getter
 - `LuaThread#eval()` method
 - `LuaThread#evalAsset()` method
 - `LuaThread#evalFile()` method

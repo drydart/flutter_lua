@@ -30,6 +30,15 @@ public class SwiftFlutterLuaPlugin: NSObject, FlutterPlugin {
         FlutterLuaThreadHandler.register(with: registrar)
         result(_threadID)
 
+      case "evalString":
+        result(FlutterMethodNotImplemented) // TODO
+
+      case "evalAsset":
+        result(FlutterMethodNotImplemented) // TODO
+
+      case "evalFile":
+        result(FlutterMethodNotImplemented) // TODO
+
       default:
         result(FlutterMethodNotImplemented)
     }
