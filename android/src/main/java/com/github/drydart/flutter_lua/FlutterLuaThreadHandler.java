@@ -128,7 +128,7 @@ final class FlutterLuaThreadHandler extends FlutterMethodCallHandler {
             @Override
             public Object get() {
               try {
-                state.doFile(path);
+                state.execFile(path);
                 return FlutterLuaPlugin.popResult(state);
               }
               catch (final Exception error) {

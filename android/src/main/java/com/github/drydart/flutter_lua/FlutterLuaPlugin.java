@@ -87,7 +87,7 @@ public class FlutterLuaPlugin extends FlutterMethodCallHandler {
       case "evalFile": {
         final State state = new State();
         try {
-          state.doFile((String)call.arguments);
+          state.execFile((String)call.arguments);
           result.success(popResult(state));
         }
         catch (final Exception error) {
