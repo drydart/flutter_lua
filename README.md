@@ -16,7 +16,7 @@ Features
 - Embeds a [Lua 5.2](https://www.lua.org/manual/5.2/) interpreter into your
   Flutter app.
 
-- Executes Lua code on a background thread, not on the main UI thread.
+- Executes Lua code on a background thread (*not* on the main UI thread).
 
 - Supports executing source code snippets from strings as well as from
   source files bundled in your app's asset bundle.
@@ -24,7 +24,7 @@ Features
 Compatibility
 -------------
 
-Android only, at present. (iOS support is planned.)
+Android and iOS both.
 
 Examples
 --------
@@ -74,9 +74,6 @@ About 3.8 MiB, at present.
 
 Caveats
 -------
-
-- **At present, iOS is not supported.**
-  Contributions to remedy this would be most welcome.
 
 - **Currently the only supported result datatypes from `LuaThread#eval*()`
   methods are booleans, floating-point numbers (doubles), and strings.**

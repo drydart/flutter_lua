@@ -80,7 +80,7 @@ final class FlutterLuaThreadHandler extends FlutterMethodCallHandler {
             @Override
             public Object get() {
               try {
-                state.doString(code);
+                state.execString(code);
                 return FlutterLuaPlugin.popResult(state);
               }
               catch (final Exception error) {
@@ -108,7 +108,7 @@ final class FlutterLuaThreadHandler extends FlutterMethodCallHandler {
             @Override
             public Object get() {
               try {
-                state.doString(code);
+                state.execString(code);
                 return FlutterLuaPlugin.popResult(state);
               }
               catch (final Exception error) {

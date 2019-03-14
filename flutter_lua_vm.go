@@ -28,13 +28,13 @@ func Version() string {
 	return fmt.Sprintf("%d.%d", version/100, version%100)
 }
 
-// DoFile
-func (state *State) DoFile(path string) error {
+// ExecFile
+func (state *State) ExecFile(path string) error {
 	return lua.DoFile(state.s, path)
 }
 
-// DoString
-func (state *State) DoString(code string) error {
+// ExecString
+func (state *State) ExecString(code string) error {
 	return lua.DoString(state.s, code)
 }
 

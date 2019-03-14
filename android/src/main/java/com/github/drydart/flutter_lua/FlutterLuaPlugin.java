@@ -54,7 +54,7 @@ public class FlutterLuaPlugin extends FlutterMethodCallHandler {
       case "evalString": {
         final State state = new State();
         try {
-          state.doString((String)call.arguments);
+          state.execString((String)call.arguments);
           result.success(popResult(state));
         }
         catch (final Exception error) {
@@ -75,7 +75,7 @@ public class FlutterLuaPlugin extends FlutterMethodCallHandler {
           break;
         }
         try {
-          state.doString(code);
+          state.execString(code);
           result.success(popResult(state));
         }
         catch (final Exception error) {
