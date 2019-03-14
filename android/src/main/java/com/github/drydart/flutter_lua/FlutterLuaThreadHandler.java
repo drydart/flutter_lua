@@ -2,6 +2,9 @@
 
 package com.github.drydart.flutter_lua;
 
+import com.github.drydart.flutter_lua_vm.Flutter_lua_vm;
+import com.github.drydart.flutter_lua_vm.State;
+
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.Result;
