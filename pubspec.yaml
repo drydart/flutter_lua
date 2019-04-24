@@ -1,6 +1,6 @@
 # See: https://www.dartlang.org/tools/pub/pubspec
 name: flutter_lua
-version: 0.3.0
+version: 0.3.1
 description: >-
   Lua interpreter and runtime for executing dynamic scripts in Flutter apps.
 author: Arto Bendiken <arto@bendiken.net>
